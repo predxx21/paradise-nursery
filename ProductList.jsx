@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '../features/cart/cartSlice';
+import { addItem } from '../features/cart/cartSlice';
 import Navbar from './Navbar';
 import '../App.css';
 
@@ -163,9 +163,9 @@ const ProductList = () => {
   };
 
   const handleAddToCart = (product) => {
-    dispatch(addToCart(product));
-    setAddedProducts(prev => new Set(prev).add(product.id));
-  };
+  dispatch(addItem(product));  // Cambiado de addToCart a addItem
+  setAddedProducts(prev => new Set(prev).add(product.id));
+};
 
   const isProductInCart = (productId) => {
     return cartItems.some(item => item.id === productId);
