@@ -10,6 +10,28 @@ body {
   background-color: #f8f9fa;
 }
 
+/* BACKGROUND IMAGE CLASS - AÑADIDA PARA LA PREGUNTA 3 */
+.background-image {
+  background-image: url('/images/background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Hero section con imagen de fondo (alternativa) */
+.hero-section {
+  background-image: url('/images/background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* Landing Page Background */
 .landing-page {
   min-height: 100vh;
