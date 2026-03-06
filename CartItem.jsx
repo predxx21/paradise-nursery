@@ -57,7 +57,10 @@ const CartItem = () => {
               <div className="cart-item-quantity">
                 <button 
                   className="quantity-btn"
-                  onClick={() => dispatch(decreaseQuantity(item.id))}
+                  onClick={() => dispatch(updateQuantity({ 
+                    id: item.id, 
+                    quantity: item.quantity - 1 
+                  }))}
                   disabled={item.quantity <= 1}
                 >
                   -
@@ -65,7 +68,10 @@ const CartItem = () => {
                 <span className="quantity-display">{item.quantity}</span>
                 <button 
                   className="quantity-btn"
-                  onClick={() => dispatch(increaseQuantity(item.id))}
+                  onClick={() => dispatch(updateQuantity({ 
+                    id: item.id, 
+                    quantity: item.quantity + 1 
+                  }))}
                 >
                   +
                 </button>
@@ -77,7 +83,7 @@ const CartItem = () => {
               
               <button 
                 className="delete-btn"
-                onClick={() => dispatch(removeFromCart(item.id))}
+                onClick={() => dispatch(removeItem(item.id))}
               >
                 Delete
               </button>
