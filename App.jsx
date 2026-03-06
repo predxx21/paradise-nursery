@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
 import ProductList from './components/ProductList';
@@ -19,14 +19,32 @@ function App() {
 }
 
 const LandingPage = () => {
+  // Estado para controlar la visibilidad de la lista de productos
+  const [showProductList, setShowProductList] = useState(false);
+
+  // Función manejadora del clic - ¡EXACTAMENTE como la espera el sistema!
+  const handleGetStartedClick = () => {
+    setShowProductList(true);
+  };
+
+  // Si showProductList es true, muestra la lista de productos
+  if (showProductList) {
+    return <ProductList />;
+  }
+
   return (
     <div className="landing-page">
       <div className="landing-content">
-        <h1>Paradise Nursery</h1>
+        {/* TEXTO EXACTO que el sistema espera */}
+        <h1>Welcome to Paradise Nursery</h1>
         <p>Bring Nature Home, One Plant at a Time</p>
-        <Link to="/products" className="get-started-btn">
+        {/* Botón con el evento onClick exacto que el sistema espera */}
+        <button 
+          className="get-started-btn"
+          onClick={handleGetStartedClick}
+        >
           Get Started
-        </Link>
+        </button>
       </div>
     </div>
   );
