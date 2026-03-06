@@ -2,9 +2,8 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { 
-  removeFromCart, 
-  increaseQuantity, 
-  decreaseQuantity,
+  removeItem, 
+  updateQuantity,
   clearCart 
 } from '../features/cart/cartSlice';
 import Navbar from './Navbar';
