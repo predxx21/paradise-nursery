@@ -3,97 +3,90 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   items: [],
   totalQuantity: 0,
-  totalAmount: 0
+  totalAmount: 0,
 };
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    // Cambia el nombre a addItem (exactamente como lo espera el sistema)
-    addItem: (state, action) => {
+    addToCart: (state, action) => {
       const newItem = action.payload;
       const existingItem = state.items.find(item => item.id === newItem.id);
       
-      if (existingItem) {
-        existingItem.quantity += 1;
-        existingItem.totalPrice = existingItem.quantity * existingItem.price;
-      } else {
+      if (!existingItem) {
         state.items.push({
           ...newItem,
           quantity: 1,
           totalPrice: newItem.price
         });
+        state.totalQuantity++;
+      } else {
+        existingItem.quantity++;
+        existingItem.totalPrice += newItem.price;
       }
       
-      state.totalQuantity = state.items.reduce((total, item) => total + item.quantity, 0);
-      state.totalAmount = state.items.reduce((total, item) => total + item.totalPrice, 0);
+      // Recalcular total
+      state.totalAmount = state.items.reduce(
+        (total, item) => total + item.price * item.quantity, 
+        0
+      );
     },
     
-    // Cambia el nombre a removeItem (exactamente como lo espera el sistema)
-    removeItem: (state, action) => {
+    removeFromCart: (state, action) => {
       const id = action.payload;
-      state.items = state.items.filter(item => item.id !== id);
+      const existingItem = state.items.find(item => item.id === id);
       
-      state.totalQuantity = state.items.reduce((total, item) => total + item.quantity, 0);
-      state.totalAmount = state.items.reduce((total, item) => total + item.totalPrice, 0);
-    },
-    
-    // Cambia el nombre a updateQuantity (exactamente como lo espera el sistema)
-    // Esta función manejará tanto incrementar como decrementar
-    updateQuantity: (state, action) => {
-      const { id, quantity } = action.payload;
-      const item = state.items.find(item => item.id === id);
-      
-      if (item && quantity >= 1) {
-        item.quantity = quantity;
-        item.totalPrice = item.quantity * item.price;
+      if (existingItem) {
+        state.totalQuantity -= existingItem.quantity;
+        state.items = state.items.filter(item => item.id !== id);
+        state.totalAmount = state.items.reduce(
+          (total, item) => total + item.price * item.quantity, 
+          0
+        );
       }
-      
-      state.totalQuantity = state.items.reduce((total, item) => total + item.quantity, 0);
-      state.totalAmount = state.items.reduce((total, item) => total + item.totalPrice, 0);
     },
     
-    // Mantén las funciones adicionales pero no serán evaluadas
     increaseQuantity: (state, action) => {
       const id = action.payload;
-      const item = state.items.find(item => item.id === id);
+      const existingItem = state.items.find(item => item.id === id);
       
-      if (item) {
-        item.quantity += 1;
-        item.totalPrice = item.quantity * item.price;
+      if (existingItem) {
+        existingItem.quantity++;
+        existingItem.totalPrice += existingItem.price;
+        state.totalQuantity++;
+        state.totalAmount += existingItem.price;
       }
-      
-      state.totalQuantity = state.items.reduce((total, item) => total + item.quantity, 0);
-      state.totalAmount = state.items.reduce((total, item) => total + item.totalPrice, 0);
     },
     
     decreaseQuantity: (state, action) => {
       const id = action.payload;
-      const item = state.items.find(item => item.id === id);
+      const existingItem = state.items.find(item => item.id === id);
       
-      if (item && item.quantity > 1) {
-        item.quantity -= 1;
-        item.totalPrice = item.quantity * item.price;
+      if (existingItem && existingItem.quantity > 1) {
+        existingItem.quantity--;
+        existingItem.totalPrice -= existingItem.price;
+        state.totalQuantity--;
+        state.totalAmount -= existingItem.price;
+      } else if (existingItem && existingItem.quantity === 1) {
+        // Si la cantidad es 1, eliminar el item completamente
+        state.totalQuantity--;
+        state.totalAmount -= existingItem.price;
+        state.items = state.items.filter(item => item.id !== id);
       }
-      
-      state.totalQuantity = state.items.reduce((total, item) => total + item.quantity, 0);
-      state.totalAmount = state.items.reduce((total, item) => total + item.totalPrice, 0);
     },
     
     clearCart: (state) => {
       state.items = [];
       state.totalQuantity = 0;
       state.totalAmount = 0;
-    }
-  }
+    },
+  },
 });
 
-// Exporta las acciones con los nombres exactos que el sistema espera
 export const { 
-  addItem,        // Cambiado de addToCart
-  removeItem,     // Cambiado de removeFromCart
-  updateQuantity, // Nueva función combinada
+  addToCart, 
+  removeFromCart, 
   increaseQuantity, 
   decreaseQuantity, 
   clearCart 
