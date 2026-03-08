@@ -10,27 +10,7 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/" element={
-            <div className="home-page">
-              <nav className="navbar">
-                <div className="navbar-brand">
-                  <Link to="/">🌿 Paradise Nursery</Link>
-                </div>
-                <div className="navbar-menu">
-                  <Link to="/">Inicio</Link>
-                  <Link to="/about">Sobre Nosotros</Link>
-                  <Link to="/products">Plantas</Link>
-                </div>
-              </nav>
-              <div className="home-content">
-                <h1>Bienvenido a Paradise Nursery</h1>
-                <p>Descubre la mejor selección de plantas de interior para tu hogar</p>
-                <Link to="/products" className="start-button">
-                  Comenzar
-                </Link>
-              </div>
-            </div>
-          } />
+          <Route path="/" element={<HomePage />} />
           <Route path="/about" element={
             <>
               <Navbar />
@@ -55,6 +35,31 @@ function App() {
   );
 }
 
+// Componente HomePage separado con la clase background-image
+const HomePage = () => {
+  return (
+    <div className="background-image">
+      <nav className="navbar">
+        <div className="navbar-brand">
+          <Link to="/">🌿 Paradise Nursery</Link>
+        </div>
+        <div className="navbar-menu">
+          <Link to="/">Inicio</Link>
+          <Link to="/about">Sobre Nosotros</Link>
+          <Link to="/products">Plantas</Link>
+        </div>
+      </nav>
+      <div className="home-content">
+        <h1>Bienvenido a Paradise Nursery</h1>
+        <p>Descubre la mejor selección de plantas de interior para tu hogar</p>
+        <Link to="/products" className="start-button">
+          Comenzar
+        </Link>
+      </div>
+    </div>
+  );
+};
+
 // Componente Navbar separado para reutilización
 const Navbar = () => {
   return (
@@ -73,25 +78,6 @@ const Navbar = () => {
       </div>
     </nav>
   );
-}
-
-  const handleStart = () => {
-    // Redirigir a la lista de productos
-    window.location.href = '/products';
-  };
-
-  return (
-    <div className="App">
-      <div className="app-container">
-        <h1>Bienvenido a Paradise Nursery</h1>
-        <button className="start-button" onClick={handleStart}>
-          Comenzar
-        </button>
-      </div>
-    </div>
-  );
 };
-
-
 
 export default App;
