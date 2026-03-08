@@ -73,6 +73,25 @@ const Navbar = () => {
       </div>
     </nav>
   );
+}
+
+  const handleStart = () => {
+    // Redirigir a la lista de productos
+    window.location.href = '/products';
+  };
+
+  return (
+    <div className="App">
+      <div className="app-container">
+        <h1>Bienvenido a Paradise Nursery</h1>
+        <button className="start-button" onClick={handleStart}>
+          Comenzar
+        </button>
+      </div>
+    </div>
+  );
 };
+
+
 
 export default App;
