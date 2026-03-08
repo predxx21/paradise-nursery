@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { removeItem, updateQuantity } from '../features/cart/CartSlice';
+import { removeItem, updateQuantity } from '../features/cart/CartSlice'; // Importaciones actualizadas
 import Navegar from './Navegar';
 import './CartItem.css';
 
@@ -19,6 +19,7 @@ const CartItem = () => {
     return (item.price * item.quantity).toFixed(2);
   };
 
+  // Usando updateQuantity() para aumentar
   const handleIncrease = (id) => {
     const item = items.find(item => item.id === id);
     if (item) {
@@ -26,16 +27,18 @@ const CartItem = () => {
     }
   };
 
+  // Usando updateQuantity() para disminuir
   const handleDecrease = (id) => {
     const item = items.find(item => item.id === id);
     if (item && item.quantity > 1) {
       dispatch(updateQuantity({ id, quantity: item.quantity - 1 }));
     } else if (item && item.quantity === 1) {
-      // Eliminar el artículo si la cantidad llega a cero
+      // Usando removeItem() cuando la cantidad llega a cero
       dispatch(removeItem(id));
     }
   };
 
+  // Usando removeItem() directamente
   const handleRemove = (id) => {
     dispatch(removeItem(id));
   };
