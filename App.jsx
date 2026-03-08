@@ -1,83 +1,100 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import ProductList from './components/ProductList';
 import CartItem from './components/CartItem';
 import AboutUs from './components/AboutUs';
 import './App.css';
 
 function App() {
-  return (
-    <Router>
-      <div className="App">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/about" element={
-            <>
-              <Navbar />
-              <AboutUs />
-            </>
-          } />
-          <Route path="/products" element={
-            <>
-              <Navbar />
-              <ProductList />
-            </>
-          } />
-          <Route path="/cart" element={
-            <>
-              <Navbar />
-              <CartItem />
-            </>
-          } />
-        </Routes>
-      </div>
-    </Router>
-  );
-}
+  // Estado para controlar qué página mostrar
+  const [showProductList, setShowProductList] = useState(false);
+  const [currentPage, setCurrentPage] = useState('home'); // 'home', 'about', 'products', 'cart'
 
-// Componente HomePage separado con la clase background-image
-const HomePage = () => {
+  const handleGetStartedClick = () => {
+    setShowProductList(true);
+    setCurrentPage('products');
+  };
+
+  const navigateTo = (page) => {
+    setCurrentPage(page);
+    if (page === 'products') {
+      setShowProductList(true);
+    } else {
+      setShowProductList(false);
+    }
+  };
+
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'about':
+        return <AboutUs />;
+      case 'products':
+        return <ProductList />;
+      case 'cart':
+        return <CartItem />;
+      default:
+        return null;
+    }
+  };
+
+  // Si estamos en la página de inicio
+  if (currentPage === 'home') {
+    return (
+      <div className="App">
+        <div className="background-image">
+          <nav className="navbar">
+            <div className="navbar-brand">
+              <span onClick={() => navigateTo('home')} style={{ cursor: 'pointer' }}>
+                🌿 Paradise Nursery
+              </span>
+            </div>
+            <div className="navbar-menu">
+              <span onClick={() => navigateTo('home')} className="nav-link">Inicio</span>
+              <span onClick={() => navigateTo('about')} className="nav-link">Sobre Nosotros</span>
+              <span onClick={() => navigateTo('products')} className="nav-link">Plantas</span>
+              <span onClick={() => navigateTo('cart')} className="cart-icon nav-link">
+                🛒
+                <span>0</span>
+              </span>
+            </div>
+          </nav>
+          
+          <div className="home-content">
+            <h1>Bienvenido a Paradise Nursery</h1>
+            <p>Descubre la mejor selección de plantas de interior para tu hogar</p>
+            <button className="start-button" onClick={handleGetStartedClick}>
+              Comenzar
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Para todas las demás páginas (about, products, cart)
   return (
-    <div className="background-image">
+    <div className="App">
       <nav className="navbar">
         <div className="navbar-brand">
-          <Link to="/">🌿 Paradise Nursery</Link>
+          <span onClick={() => navigateTo('home')} style={{ cursor: 'pointer' }}>
+            🌿 Paradise Nursery
+          </span>
         </div>
         <div className="navbar-menu">
-          <Link to="/">Inicio</Link>
-          <Link to="/about">Sobre Nosotros</Link>
-          <Link to="/products">Plantas</Link>
+          <span onClick={() => navigateTo('home')} className="nav-link">Inicio</span>
+          <span onClick={() => navigateTo('about')} className="nav-link">Sobre Nosotros</span>
+          <span onClick={() => navigateTo('products')} className="nav-link">Plantas</span>
+          <span onClick={() => navigateTo('cart')} className="cart-icon nav-link">
+            🛒
+            <span>0</span>
+          </span>
         </div>
       </nav>
-      <div className="home-content">
-        <h1>Bienvenido a Paradise Nursery</h1>
-        <p>Descubre la mejor selección de plantas de interior para tu hogar</p>
-        <Link to="/products" className="start-button">
-          Comenzar
-        </Link>
+      
+      <div className="page-content">
+        {renderPage()}
       </div>
     </div>
   );
-};
-
-// Componente Navbar separado para reutilización
-const Navbar = () => {
-  return (
-    <nav className="navbar">
-      <div className="navbar-brand">
-        <Link to="/">🌿 Paradise Nursery</Link>
-      </div>
-      <div className="navbar-menu">
-        <Link to="/">Inicio</Link>
-        <Link to="/about">Sobre Nosotros</Link>
-        <Link to="/products">Plantas</Link>
-        <Link to="/cart" className="cart-icon">
-          🛒
-          <span>0</span>
-        </Link>
-      </div>
-    </nav>
-  );
-};
+}
 
 export default App;
