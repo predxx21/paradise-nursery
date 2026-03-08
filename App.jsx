@@ -1,52 +1,77 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import './App.css';
 import ProductList from './components/ProductList';
 import CartItem from './components/CartItem';
 import AboutUs from './components/AboutUs';
+import './App.css';
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/products" element={<ProductList />} />
-        <Route path="/cart" element={<CartItem />} />
-        <Route path="/about" element={<AboutUs />} />
-      </Routes>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={
+            <div className="home-page">
+              <nav className="navbar">
+                <div className="navbar-brand">
+                  <Link to="/">🌿 Paradise Nursery</Link>
+                </div>
+                <div className="navbar-menu">
+                  <Link to="/">Inicio</Link>
+                  <Link to="/about">Sobre Nosotros</Link>
+                  <Link to="/products">Plantas</Link>
+                </div>
+              </nav>
+              <div className="home-content">
+                <h1>Bienvenido a Paradise Nursery</h1>
+                <p>Descubre la mejor selección de plantas de interior para tu hogar</p>
+                <Link to="/products" className="start-button">
+                  Comenzar
+                </Link>
+              </div>
+            </div>
+          } />
+          <Route path="/about" element={
+            <>
+              <Navbar />
+              <AboutUs />
+            </>
+          } />
+          <Route path="/products" element={
+            <>
+              <Navbar />
+              <ProductList />
+            </>
+          } />
+          <Route path="/cart" element={
+            <>
+              <Navbar />
+              <CartItem />
+            </>
+          } />
+        </Routes>
+      </div>
     </Router>
   );
 }
 
-const LandingPage = () => {
-  // Estado para controlar la visibilidad de la lista de productos
-  const [showProductList, setShowProductList] = useState(false);
-
-  // Función manejadora del clic - ¡EXACTAMENTE como la espera el sistema!
-  const handleGetStartedClick = () => {
-    setShowProductList(true);
-  };
-
-  // Si showProductList es true, muestra la lista de productos
-  if (showProductList) {
-    return <ProductList />;
-  }
-
+// Componente Navbar separado para reutilización
+const Navbar = () => {
   return (
-    <div className="landing-page">
-      <div className="landing-content">
-        {/* TEXTO EXACTO que el sistema espera */}
-        <h1>Welcome to Paradise Nursery</h1>
-        <p>Bring Nature Home, One Plant at a Time</p>
-        {/* Botón con el evento onClick exacto que el sistema espera */}
-        <button 
-          className="get-started-btn"
-          onClick={handleGetStartedClick}
-        >
-          Get Started
-        </button>
+    <nav className="navbar">
+      <div className="navbar-brand">
+        <Link to="/">🌿 Paradise Nursery</Link>
       </div>
-    </div>
+      <div className="navbar-menu">
+        <Link to="/">Inicio</Link>
+        <Link to="/about">Sobre Nosotros</Link>
+        <Link to="/products">Plantas</Link>
+        <Link to="/cart" className="cart-icon">
+          🛒
+          <span>0</span>
+        </Link>
+      </div>
+    </nav>
   );
 };
 
