@@ -19,6 +19,23 @@ body {
   min-height: 100vh;
   position: relative;
 }
+/* Añade esto al final de tu App.css */
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s;
+  cursor: pointer;
+}
+
+.nav-link:hover {
+  color: #4CAF50;
+}
+
+.page-content {
+  min-height: calc(100vh - 80px);
+  background-color: #f5f5f5;
+}
 
 /* Overlay para mejorar la legibilidad del texto */
 .background-image::before {
